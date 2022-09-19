@@ -1,57 +1,68 @@
-import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
-import * as React from 'react';
+import React, { useEffect, useState, createRef } from 'react';
+import { Card, CardContent, Grid } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
-const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 90,
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  },
-];
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchData } from '../../../features/data/dataSlice';
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
+export const Table = (props) => {
+  const data = useSelector((state) => state.data.value);
+  const dispatch = useDispatch();
 
-export const Table = (props) => (
-  <Card
-    sx={{ height: '100%' }}
-    {...props}
-  >
-    <CardContent sx={{ height: '100%' }}>
-      <Grid
-        container
-        sx={{ overflow: 'scroll', height: '95%', width: '100%' }}
-      >
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-        />
-      </Grid>
-    </CardContent>
-  </Card>
-);
+  const [sales, setSales] = useState([]);
+  const table_component = createRef();
+
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 30 },
+    { field: 'weekEnding', headerName: 'Week Ending', width: 160 },
+    { field: 'retailSales', headerName: 'Retail Sales', width: 160 },
+    { field: 'wholesaleSales', headerName: 'Wholesale Sales', width: 160 },
+    { field: 'unitsSold', headerName: 'Units Sold', width: 160 },
+    { field: 'retailerMargin', headerName: 'Retailer Margin', width: 160 },
+  ];
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, []);
+
+  useEffect(() => {
+    if (data.sales) {
+      let idx = 1;
+      let new_sales = [];
+      data.sales.map((sale) => {
+        let new_sale = {};
+        new_sale.id = idx;
+        new_sale.weekEnding = sale.weekEnding;
+        new_sale.retailSales = sale.retailSales;
+        new_sale.wholesaleSales = sale.wholesaleSales;
+        new_sale.unitsSold = sale.unitsSold;
+        new_sale.retailerMargin = sale.retailerMargin;
+        idx++;
+        new_sales.push(new_sale);
+      });
+      setSales(new_sales);
+    }
+  }, [data])
+
+  return (
+    <Card
+      sx={{ height: '100%' }}
+      {...props}
+      ref={table_component}
+    >
+      <CardContent sx={{ height: '100%' }}>
+        <Grid
+          container
+          sx={{ overflow: 'scroll', height: '95%', width: '100%' }}
+        >
+          {sales ? 
+            <DataGrid
+              rows={sales}
+              columns={columns}
+              autoPageSize
+            /> : <></>}
+        </Grid>
+      </CardContent>
+    </Card>
+  )
+};

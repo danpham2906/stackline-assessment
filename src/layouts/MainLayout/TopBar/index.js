@@ -9,7 +9,6 @@ import { ReactComponent as StacklineLogo } from '../../../image/stackline_logo.s
 const AppBarLayoutRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.dark,
   display: 'flex',
-  // flex: '1 1 auto',
 }));
 
 export const TopBar = () => {

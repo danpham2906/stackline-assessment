@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 
 import { Box } from '@mui/material';
@@ -17,14 +18,12 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 
 export const MainLayout = () => {
   const theme = useTheme();
+
   return (
     <DashboardLayoutRoot>
       <Box
         sx={{
           display: 'flex',
-          // flex: 'auto',
-          // flexDirection: 'column',
-          // width: '100%',
           padding: '30px 10px 30px 30px',
         }}
       >
@@ -34,11 +33,8 @@ export const MainLayout = () => {
         sx={{
           display: 'flex',
           flex: 'auto',
-          // flexGrow: 1,
           flexDirection: 'column',
-          // width: '100%',
           padding: '30px 30px 30px 10px',
-          // height: '100vh',
         }}
       >
         <Box sx={{ paddingBottom: '50px' }}>
