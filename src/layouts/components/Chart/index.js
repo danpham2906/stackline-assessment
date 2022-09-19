@@ -37,10 +37,14 @@ export const Chart = (props) => {
               <LineChart data={data.sales} margin={{ top: 20, right: 30, left: -45, bottom: 0 }}>
                 <XAxis dataKey="weekEnding" tickLine={false} interval={4}
                   tickFormatter={(value) => {
-                    if (value === undefined || value === "" || value === null) {
-                      return "";
+                    try {
+                      if (value === undefined || value === "" || value === null) {
+                        return "";
+                      }
+                      return `${month[parseInt(value.substring(5, 7)) - 1]}`;
+                    } catch (err) {
+                      console.log(err);
                     }
-                    return `${month[parseInt(value.substring(5, 7)) - 1]}`;
                   }}
                 />
                 <YAxis domain={[0, 'dataMax + 100000']} tick={false} />
