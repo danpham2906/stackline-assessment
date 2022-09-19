@@ -25,6 +25,15 @@ export const Table = (props) => {
     dispatch(fetchData());
   }, []);
 
+  const reformatSale = (sale) => {
+    let sale_str = String(sale);
+    let part0 = sale_str.substring(Math.max(0,sale_str.length-9), Math.max(0,sale_str.length-6));
+    let part1 = sale_str.substring(Math.max(0,sale_str.length-6), Math.max(0,sale_str.length-3));
+    let part2 = sale_str.substring(sale_str.length-3, sale_str.length);
+    part0 = part0 !== "" ? part0 + ',' : '';
+    return '$' + part0 + part1 + ',' + part2;
+  }
+
   useEffect(() => {
     if (data.sales) {
       let idx = 1;
@@ -33,10 +42,10 @@ export const Table = (props) => {
         let new_sale = {};
         new_sale.id = idx;
         new_sale.weekEnding = sale.weekEnding;
-        new_sale.retailSales = sale.retailSales;
-        new_sale.wholesaleSales = sale.wholesaleSales;
+        new_sale.retailSales = reformatSale(sale.retailSales);
+        new_sale.wholesaleSales = reformatSale(sale.wholesaleSales);
         new_sale.unitsSold = sale.unitsSold;
-        new_sale.retailerMargin = sale.retailerMargin;
+        new_sale.retailerMargin = reformatSale(sale.retailerMargin);
         idx++;
         new_sales.push(new_sale);
       });
