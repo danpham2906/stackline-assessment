@@ -21,7 +21,6 @@ export const dataSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchData.fulfilled]: (state, { payload }) => {
-      console.log("extra success:", payload[0]);
       state.value = payload[0];
     },
   },

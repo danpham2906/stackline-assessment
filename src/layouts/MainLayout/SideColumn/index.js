@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { Card, CardContent, Grid, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { Card, CardContent, Grid, Typography, Divider } from '@mui/material';
 import Chip from '@mui/material/Chip';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchData } from '../../../features/data/dataSlice';
 
 export const SideColumn = (props) => {
+  const theme = useTheme();
   const data = useSelector((state) => state.data.value);
   const dispatch = useDispatch();
 
@@ -32,23 +34,25 @@ export const SideColumn = (props) => {
             <Typography
               color="textSecondary"
               gutterBottom
-              variant="overline"
-              sx={{ width: '100%' }}
+              variant="h6"
+              sx={{ width: '100%', fontWeight: 'bold' }}
             >
               {data.title}
             </Typography>
           </Grid>
-          <Grid item sx={{ width: '100%', paddingBottom: '20px' }}
+          <Grid item sx={{ width: '100%', padding: '0px 50px 0px 50px' }}
             align="center"
           >
             <Typography
               color="textSecondary"
               variant="caption"
+              sx={{ width: '100%', color: 'LightSlateGrey' }}
             >
               {data.subtitle}
             </Typography>
           </Grid>
-          <Grid container sx={{ width: '100%', justifyContent: 'space-between' }}
+          <Divider sx={{ width: '100%', margin: '10px 0px' }} />
+          <Grid container sx={{ width: '100%', justifyContent: 'space-between', padding: '0px 15px' }}
             align="center"
             spacing={1}
           >
@@ -58,6 +62,7 @@ export const SideColumn = (props) => {
               </Grid>
             )) : <></>}
           </Grid>
+          <Divider sx={{ width: '100%', margin: '10px 0px' }} />
         </Grid>
       </CardContent>
     </Card >
