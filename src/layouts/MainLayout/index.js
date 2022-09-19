@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import { useTheme } from '@mui/material/styles';
-
+import React from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { SideColumn } from './SideColumn';
@@ -16,8 +14,6 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 }));
 
 export const MainLayout = () => {
-  const theme = useTheme();
-
   return (
     <DashboardLayoutRoot>
       <Box
